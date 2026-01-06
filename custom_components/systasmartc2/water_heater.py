@@ -134,6 +134,11 @@ class SystaSmartC2WaterHeater(CoordinatorEntity, WaterHeaterEntity):
             attrs["circulation_temperature"] = circ_temp
         
         return attrs
+
+    @property
+    def icon(self):
+        """Return icon for water heater."""
+        return "mdi:water-boiler"
     
     @property
     def device_info(self):
@@ -142,9 +147,4 @@ class SystaSmartC2WaterHeater(CoordinatorEntity, WaterHeaterEntity):
             "name": "SystaSmartC2",
             "manufacturer": MANUFACTURER,
             "model": MODEL,
-    
-    @property
-    def icon(self):
-        """Return icon for water heater."""
-        return "mdi:water-boiler"
         }
