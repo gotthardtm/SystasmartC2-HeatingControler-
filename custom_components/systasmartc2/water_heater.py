@@ -146,5 +146,5 @@ class SystaSmartC2WaterHeater(CoordinatorEntity, WaterHeaterEntity):
     @property
     def icon(self):
         """Return icon for water heater."""
-        return "mdi:water-boiler
+        return "mdi:water-boiler"
         }
