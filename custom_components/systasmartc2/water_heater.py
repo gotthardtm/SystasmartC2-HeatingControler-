@@ -2,11 +2,12 @@
 from homeassistant.components.water_heater import (
     WaterHeaterEntity,
     WaterHeaterEntityFeature,
+    STATE_OFF,  # <-- Hinzugefügt!
 )
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, MANUFACTURER, MODEL, CONF_ENABLE_WATER_HEATER  # CONF_ENABLE_WATER_HEATER hinzugefügt!
+from .const import DOMAIN, MANUFACTURER, MODEL, CONF_ENABLE_WATER_HEATER
 
 STATE_HEATING = "heating"
 STATE_IDLE = "idle"
@@ -28,7 +29,8 @@ class SystaSmartC2WaterHeater(CoordinatorEntity, WaterHeaterEntity):
     def __init__(self, coordinator, modbus_client):
         super().__init__(coordinator)
         self._modbus_client = modbus_client
-        self._attr_operation_list = [STATE_OFF, STATE_HEATING, STATE_IDLE]
+        self._attr_operation_list = [STATE_OFF, STATE_HEATING, STATE_IDLE]  # Jetzt STATE_OFF importiert
+        self._attr_icon = "mdi:water-boiler"  # Icon direkt setzen (alternativ @property)
 
     @property
     def unique_id(self):
