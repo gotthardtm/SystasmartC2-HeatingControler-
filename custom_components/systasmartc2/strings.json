@@ -1,0 +1,193 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "SystaSmartC2 verbinden",
+        "description": "Verbinden Sie sich mit Ihrer SystaSmartC2 Heizungssteuerung",
+        "data": {
+          "name": "Name",
+          "host": "IP-Adresse",
+          "port": "Port",
+          "slave_id": "Slave ID"
+        }
+      },
+      "components": {
+        "title": "Komponenten auswählen",
+        "description": "{description}",
+        "data": {
+          "enable_water_heater": "Warmwasser-Steuerung aktivieren",
+          "enable_services": "Erweiterte Services aktivieren",
+          "enable_solar_sensors": "Solar-Sensoren aktivieren",
+          "enable_energy_sensors": "Erweiterte Energie-Sensoren",
+          "enable_boiler_sensors": "Heizkessel-Sensoren",
+          "enable_pellet_sensors": "Pelletkessel-Sensoren",
+          "enable_wood_boiler_sensors": "Holzkessel-Sensoren",
+          "enable_pool_sensors": "Schwimmbad-Sensoren"
+        },
+        "data_description": {
+          "enable_water_heater": "Ermöglicht die Steuerung von Warmwasser (Ein/Aus, Temperatur)",
+          "enable_services": "Aktiviert Services für Automatisierungen (set_heating_temperature, control_dhw, etc.)",
+          "enable_solar_sensors": "Zeigt Solaranlage-Status, Kollektortemperatur und aktuelle Leistung",
+          "enable_energy_sensors": "Fügt detaillierte Energie-Zähler hinzu (Tages-/Gesamtertrag, Wärmemengen)",
+          "enable_boiler_sensors": "Zeigt Heizkessel-Temperaturen, Betriebsstunden und Starts",
+          "enable_pellet_sensors": "Zeigt Pelletkessel-Status und Verbrauch (nur wenn vorhanden)",
+          "enable_wood_boiler_sensors": "Zeigt Holzkessel-Status und Temperaturen (nur wenn vorhanden)",
+          "enable_pool_sensors": "Zeigt Schwimmbad-Temperaturen und Status (nur wenn vorhanden)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zur SystaSmartC2 fehlgeschlagen. Prüfen Sie IP-Adresse, Port und Netzwerk.",
+      "invalid_data": "Ungültige Daten vom Gerät empfangen. Stellen Sie sicher, dass es sich um eine SystaSmartC2 handelt.",
+      "unknown": "Unerwarteter Fehler aufgetreten. Siehe Logs für Details."
+    },
+    "abort": {
+      "already_configured": "Dieses Gerät ist bereits konfiguriert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "SystaSmartC2 Optionen",
+        "description": "{description}",
+        "data": {
+          "scan_interval": "Scan-Intervall (Sekunden)",
+          "enable_water_heater": "Warmwasser-Steuerung",
+          "enable_services": "Services",
+          "enable_solar_sensors": "Solar-Sensoren",
+          "enable_energy_sensors": "Energie-Sensoren",
+          "enable_boiler_sensors": "Heizkessel-Sensoren",
+          "enable_pellet_sensors": "Pelletkessel-Sensoren",
+          "enable_wood_boiler_sensors": "Holzkessel-Sensoren",
+          "enable_pool_sensors": "Schwimmbad-Sensoren"
+        },
+        "data_description": {
+          "scan_interval": "Wie oft sollen Daten aktualisiert werden (Standard: 30 Sekunden)",
+          "enable_water_heater": "Warmwasser Ein/Aus und Temperatur steuern",
+          "enable_services": "Services für erweiterte Automatisierungen",
+          "enable_solar_sensors": "Solaranlage überwachen",
+          "enable_energy_sensors": "Detaillierte Energie-Statistiken",
+          "enable_boiler_sensors": "Heizkessel überwachen",
+          "enable_pellet_sensors": "Pelletkessel überwachen (falls installiert)",
+          "enable_wood_boiler_sensors": "Holzkessel überwachen (falls installiert)",
+          "enable_pool_sensors": "Schwimmbad überwachen (falls installiert)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temp_outside": {
+        "name": "Außentemperatur"
+      },
+      "temp_flow_hk1": {
+        "name": "Vorlauftemperatur HK1"
+      },
+      "temp_return_hk1": {
+        "name": "Rücklauftemperatur HK1"
+      },
+      "temp_dhw": {
+        "name": "Warmwassertemperatur"
+      },
+      "temp_buffer_top": {
+        "name": "Puffertemperatur oben"
+      },
+      "temp_buffer_bottom": {
+        "name": "Puffertemperatur unten"
+      },
+      "temp_circulation": {
+        "name": "Zirkulationstemperatur"
+      },
+      "temp_collector": {
+        "name": "Kollektortemperatur"
+      },
+      "solar_power": {
+        "name": "Solarleistung aktuell"
+      },
+      "solar_energy_today": {
+        "name": "Solarertrag heute"
+      },
+      "solar_energy_total": {
+        "name": "Solarertrag gesamt"
+      },
+      "status_dhw_text": {
+        "name": "Status Warmwasser"
+      },
+      "status_circulation_text": {
+        "name": "Status Zirkulation"
+      },
+      "status_hk1_text": {
+        "name": "Status Heizkreis 1"
+      },
+      "status_hk2_text": {
+        "name": "Status Heizkreis 2"
+      },
+      "status_solar_text": {
+        "name": "Status Solar"
+      },
+      "status_boiler_text": {
+        "name": "Status Heizkessel"
+      }
+    },
+    "binary_sensor": {
+      "sh_enabled": {
+        "name": "Smarthome aktiv"
+      },
+      "hk1_available": {
+        "name": "Heizkreis 1 vorhanden"
+      },
+      "hk2_available": {
+        "name": "Heizkreis 2 vorhanden"
+      }
+    },
+    "climate": {
+      "heizkreis_1": {
+        "name": "Heizkreis 1"
+      },
+      "heizkreis_2": {
+        "name": "Heizkreis 2"
+      }
+    },
+    "water_heater": {
+      "warmwasser": {
+        "name": "Warmwasser"
+      }
+    }
+  },
+  "services": {
+    "set_heating_temperature": {
+      "name": "Heizkreis Temperatur setzen",
+      "description": "Setzt die Solltemperatur für einen Heizkreis",
+      "fields": {
+        "circuit": {
+          "name": "Heizkreis",
+          "description": "Welcher Heizkreis (1 oder 2)"
+        },
+        "temperature": {
+          "name": "Temperatur",
+          "description": "Solltemperatur in °C"
+        }
+      }
+    },
+    "set_dhw_temperature": {
+      "name": "Warmwasser Temperatur setzen",
+      "description": "Setzt die Solltemperatur für Warmwasser",
+      "fields": {
+        "temperature": {
+          "name": "Temperatur",
+          "description": "Solltemperatur in °C"
+        }
+      }
+    },
+    "control_dhw": {
+      "name": "Warmwasser steuern",
+      "description": "Aktiviert oder deaktiviert die Warmwasserbereitung",
+      "fields": {
+        "enable": {
+          "name": "Aktivieren",
+          "description": "True = Warmwasser aktivieren, False = deaktivieren"
+        }
+      }
+    }
+  }
+}

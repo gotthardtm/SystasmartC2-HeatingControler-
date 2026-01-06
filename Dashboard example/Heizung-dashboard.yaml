@@ -1,0 +1,35 @@
+title: Heizung
+path: heizung
+icon: mdi:radiator
+cards:
+  - type: custom:mushroom-title-card
+    title: Heizungsübersicht
+    subtitle: Paradigma Aero Calima
+
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.temp_outside
+        name: Außen
+        layout: vertical
+      - type: custom:mushroom-entity-card
+        entity: sensor.temp_buffer_top
+        name: Puffer oben
+      - type: custom:mushroom-entity-card
+        entity: sensor.temp_dhw
+        name: Warmwasser
+
+      - type: custom:mushroom-climate-card
+        entity: climate.heizkreis_1
+        name: Heizkreis 1
+        show_temperature_control: true
+
+      - type: custom:mushroom-entity-card
+        entity: sensor.status_hk1_text
+        name: Status HK1
+
+      - type: custom:mushroom-entity-card
+        entity: water_heater.warmwasser
+        name: Warmwasser Steuerung
