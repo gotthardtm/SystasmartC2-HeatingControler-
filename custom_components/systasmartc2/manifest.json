@@ -1,0 +1,12 @@
+{
+  "domain": "systasmartc2",
+  "name": "SystaSmartC2",
+  "codeowners": [gotthardtm],
+  "config_flow": true,
+  "documentation": "https://github.com/gotthardtm/systasmartc2-hass",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/gotthardtm/systasmartc2-ha/issues",
+  "requirements": ["pymodbus>=3.0.0"],
+  "version": "1.0.0"
+}
