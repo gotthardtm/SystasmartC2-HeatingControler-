@@ -20,3 +20,4 @@ jobs:
         uses: hacs/action@main
         with:
           category: integration
+          ignore: brands  # <--- Das ignoriert den brands-Check (erlaubt und empfohlen, wenn kein Logo)
