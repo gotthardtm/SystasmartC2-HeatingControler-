@@ -1,6 +1,6 @@
 # SystaSmartC2 Home Assistant Integration
 
-Custom integration for Paradigma SystaSmartC2 heating controller via Modbus TCP.
+Custom integration for Paradigma SystaSmartC2 heating controller via Modbus TCP. 
 
 ## Features
 - Full monitoring of temperatures, buffer, hot water, circulation, heating circuits
