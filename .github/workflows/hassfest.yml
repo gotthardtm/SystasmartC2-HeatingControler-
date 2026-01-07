@@ -2,17 +2,20 @@ name: Hassfest Validation
 
 on:
   push:
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    name: Validate with hassfest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Hassfest validation
+      - name: Run hassfest validation
         uses: home-assistant/actions/hassfest@master
-        with:
-          path: "./custom_components/systasmartc2"
