@@ -1,13 +1,17 @@
 """Water heater platform for SystaSmartC2."""
+import logging
+
 from homeassistant.components.water_heater import (
     WaterHeaterEntity,
     WaterHeaterEntityFeature,
-    STATE_OFF,  # <-- Hinzugefügt!
+    STATE_OFF,
 )
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, MANUFACTURER, MODEL, CONF_ENABLE_WATER_HEATER
+
+_LOGGER = logging.getLogger(__name__)
 
 STATE_HEATING = "heating"
 STATE_IDLE = "idle"
@@ -22,15 +26,14 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     if config.get(CONF_ENABLE_WATER_HEATER, True) and data.get("temp_dhw") is not None:
         async_add_entities([SystaSmartC2WaterHeater(coordinator, modbus_client)])
 
-
 class SystaSmartC2WaterHeater(CoordinatorEntity, WaterHeaterEntity):
     """Representation of a SystaSmartC2 water heater."""
 
     def __init__(self, coordinator, modbus_client):
         super().__init__(coordinator)
         self._modbus_client = modbus_client
-        self._attr_operation_list = [STATE_OFF, STATE_HEATING, STATE_IDLE]  # Jetzt STATE_OFF importiert
-        self._attr_icon = "mdi:water-boiler"  # Icon direkt setzen (alternativ @property)
+        self._attr_operation_list = [STATE_OFF, STATE_HEATING, STATE_IDLE]
+        self._attr_icon = "mdi:water-boiler"
 
     @property
     def unique_id(self):
