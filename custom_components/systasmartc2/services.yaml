@@ -1,10 +1,13 @@
 set_heating_temperature:
-  name: Heizkreis Temperatur setzen
-  description: Setzt die Solltemperatur für einen Heizkreis
+  name: Heizkreis Solltemperatur setzen
+  description: Setzt die Solltemperatur für einen Heizkreis.
+  target:
+    entity:
+      domain: climate
   fields:
     circuit:
       name: Heizkreis
-      description: Heizkreis (1 oder 2)
+      description: Der Heizkreis (1 oder 2).
       required: true
       selector:
         select:
@@ -13,7 +16,7 @@ set_heating_temperature:
             - "2"
     temperature:
       name: Temperatur
-      description: Solltemperatur in °C
+      description: Die Solltemperatur in °C.
       required: true
       selector:
         number:
@@ -21,14 +24,18 @@ set_heating_temperature:
           max: 80
           step: 0.5
           unit_of_measurement: "°C"
+          mode: box
 
 set_dhw_temperature:
-  name: Warmwasser Temperatur setzen
-  description: Setzt die Solltemperatur für Warmwasser
+  name: Warmwasser Solltemperatur setzen
+  description: Setzt die Solltemperatur für Warmwasser.
+  target:
+    entity:
+      domain: water_heater
   fields:
     temperature:
       name: Temperatur
-      description: Solltemperatur in °C
+      description: Die Solltemperatur in °C.
       required: true
       selector:
         number:
@@ -36,14 +43,19 @@ set_dhw_temperature:
           max: 70
           step: 0.5
           unit_of_measurement: "°C"
+          mode: box
 
 control_dhw:
   name: Warmwasser steuern
-  description: Aktiviert oder deaktiviert die Warmwasserbereitung
+  description: Aktiviert oder deaktiviert die Warmwasserbereitung.
+  target:
+    entity:
+      domain: water_heater
   fields:
     enable:
       name: Aktivieren
-      description: Warmwasserbereitung aktivieren/deaktivieren
+      description: Warmwasserbereitung aktivieren (true) oder deaktivieren (false).
       required: true
+      default: true
       selector:
         boolean:
