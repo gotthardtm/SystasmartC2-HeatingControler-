@@ -26,6 +26,89 @@ from .const import (
     CONF_ENABLE_POOL_SENSORS,
 )
 
+class SystaSmartC2Sensor(CoordinatorEntity, SensorEntity):
+    """Representation of a SystaSmartC2 sensor."""
+
+    def __init__(self, coordinator, key, name, unit=None, device_class=None, state_class=None):
+        super().__init__(coordinator)
+        self._key = key
+        self._attr_name = name
+        self._attr_native_unit_of_measurement = unit
+        self._attr_device_class = device_class
+        self._attr_state_class = state_class
+
+    @property
+    def unique_id(self):
+        return f"systasmartc2_{self._key}"
+
+    @property
+    def native_value(self):
+        value = self.coordinator.data.get(self._key)
+        if value is None and "_text" in self._key:
+            return "Unbekannt"
+        return value
+
+    @property
+    def icon(self):
+        """Return a suitable icon for the sensor."""
+        icons = {
+            "temp_outside": "mdi:thermometer",
+            "temp_flow_hk1": "mdi:thermometer-chevron-up",
+            "temp_return_hk1": "mdi:thermometer-chevron-down",
+            "temp_flow_hk2": "mdi:thermometer-chevron-up",
+            "temp_return_hk2": "mdi:thermometer-chevron-down",
+            "temp_room_hk1": "mdi:home-thermometer",
+            "temp_room_hk2": "mdi:home-thermometer",
+            "temp_dhw": "mdi:water-thermometer",
+            "temp_buffer_top": "mdi:radiator",
+            "temp_buffer_bottom": "mdi:radiator-disabled",
+            "temp_circulation": "mdi:pipe",
+            "temp_collector": "mdi:solar-power",
+            "temp_boiler_flow": "mdi:fire",
+            "temp_boiler_return": "mdi:fire",
+            "temp_wood_boiler_flow": "mdi:fire",
+            "temp_wood_boiler_return": "mdi:fire",
+            "temp_wood_buffer_top": "mdi:radiator",
+            "temp_pool": "mdi:pool",
+            "temp_pool_flow": "mdi:pool-thermometer",
+            "temp_pool_return": "mdi:pool-thermometer",
+            "setpoint_flow_hk1": "mdi:thermometer-chevron-up",
+            "setpoint_flow_hk2": "mdi:thermometer-chevron-up",
+            "setpoint_dhw": "mdi:water-thermometer-outline",
+            "setpoint_boiler": "mdi:thermometer-chevron-up",
+            "status_dhw_text": "mdi:water-pump",
+            "status_circulation_text": "mdi:pipe-leak",
+            "status_hk1_text": "mdi:radiator",
+            "status_hk2_text": "mdi:radiator",
+            "status_solar_text": "mdi:solar-power",
+            "status_boiler_text": "mdi:fire",
+            "error_controller": "mdi:alert-circle",
+            "smarthome_error": "mdi:alert-circle-outline",
+            "energy_dhw": "mdi:flash",
+            "energy_circulation": "mdi:flash-outline",
+            "solar_energy_today": "mdi:weather-sunny",
+            "solar_energy_total": "mdi:weather-sunny",
+            "solar_power": "mdi:solar-power",
+            "boiler_hours": "mdi:clock-outline",
+            "boiler_starts": "mdi:counter",
+            "pellet_hours": "mdi:clock-outline",
+            "pellet_consumption": "mdi:sack",
+        }
+        return icons.get(self._key, "mdi:thermometer-lines")
+
+    @property
+    def available(self):
+        return self.coordinator.last_update_success
+
+    @property
+    def device_info(self):
+        return {
+            "identifiers": {(DOMAIN, "systasmartc2")},
+            "name": "SystaSmartC2",
+            "manufacturer": MANUFACTURER,
+            "model": MODEL,
+        }
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry,
@@ -124,86 +207,3 @@ async def async_setup_entry(
         add_if_valid("energy_circulation", "Wärmemenge Zirkulation", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, SensorStateClass.TOTAL)
 
     async_add_entities(entities)
-
-class SystaSmartC2Sensor(CoordinatorEntity, SensorEntity):
-    """Representation of a SystaSmartC2 sensor."""
-
-    def __init__(self, coordinator, key, name, unit=None, device_class=None, state_class=None):
-        super().__init__(coordinator)
-        self._key = key
-        self._attr_name = name
-        self._attr_native_unit_of_measurement = unit
-        self._attr_device_class = device_class
-        self._attr_state_class = state_class
-
-    @property
-    def unique_id(self):
-        return f"systasmartc2_{self._key}"
-
-    @property
-    def native_value(self):
-        value = self.coordinator.data.get(self._key)
-        if value is None and "_text" in self._key:
-            return "Unbekannt"
-        return value
-
-    @property
-    def icon(self):
-        """Return a suitable icon for the sensor."""
-        icons = {
-            "temp_outside": "mdi:thermometer",
-            "temp_flow_hk1": "mdi:thermometer-chevron-up",
-            "temp_return_hk1": "mdi:thermometer-chevron-down",
-            "temp_flow_hk2": "mdi:thermometer-chevron-up",
-            "temp_return_hk2": "mdi:thermometer-chevron-down",
-            "temp_room_hk1": "mdi:home-thermometer",
-            "temp_room_hk2": "mdi:home-thermometer",
-            "temp_dhw": "mdi:water-thermometer",
-            "temp_buffer_top": "mdi:radiator",
-            "temp_buffer_bottom": "mdi:radiator-disabled",
-            "temp_circulation": "mdi:pipe",
-            "temp_collector": "mdi:solar-power",
-            "temp_boiler_flow": "mdi:fire",
-            "temp_boiler_return": "mdi:fire",
-            "temp_wood_boiler_flow": "mdi:fire",
-            "temp_wood_boiler_return": "mdi:fire",
-            "temp_wood_buffer_top": "mdi:radiator",
-            "temp_pool": "mdi:pool",
-            "temp_pool_flow": "mdi:pool-thermometer",
-            "temp_pool_return": "mdi:pool-thermometer",
-            "setpoint_flow_hk1": "mdi:thermometer-chevron-up",
-            "setpoint_flow_hk2": "mdi:thermometer-chevron-up",
-            "setpoint_dhw": "mdi:water-thermometer-outline",
-            "setpoint_boiler": "mdi:thermometer-chevron-up",
-            "status_dhw_text": "mdi:water-pump",
-            "status_circulation_text": "mdi:pipe-leak",
-            "status_hk1_text": "mdi:radiator",
-            "status_hk2_text": "mdi:radiator",
-            "status_solar_text": "mdi:solar-power",
-            "status_boiler_text": "mdi:fire",
-            "error_controller": "mdi:alert-circle",
-            "smarthome_error": "mdi:alert-circle-outline",
-            "energy_dhw": "mdi:flash",
-            "energy_circulation": "mdi:flash-outline",
-            "solar_energy_today": "mdi:weather-sunny",
-            "solar_energy_total": "mdi:weather-sunny",
-            "solar_power": "mdi:solar-power",
-            "boiler_hours": "mdi:clock-outline",
-            "boiler_starts": "mdi:counter",
-            "pellet_hours": "mdi:clock-outline",
-            "pellet_consumption": "mdi:sack",
-        }
-        return icons.get(self._key, "mdi:thermometer-lines")
-
-    @property
-    def available(self):
-        return self.coordinator.last_update_success
-
-    @property
-    def device_info(self):
-        return {
-            "identifiers": {(DOMAIN, "systasmartc2")},
-            "name": "SystaSmartC2",
-            "manufacturer": MANUFACTURER,
-            "model": MODEL,
-        }
