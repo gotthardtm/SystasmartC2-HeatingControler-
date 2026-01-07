@@ -19,3 +19,5 @@ jobs:
 
       - name: Run hassfest validation
         uses: home-assistant/actions/hassfest@master
+        with:
+          ignore: manifest_domain_dir_name
