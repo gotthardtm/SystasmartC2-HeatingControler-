@@ -26,7 +26,6 @@ from .const import (
     CONF_ENABLE_POOL_SENSORS,
 )
 
-
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry,
@@ -49,7 +48,7 @@ async def async_setup_entry(
                 SystaSmartC2Sensor(coordinator, key, name, unit, device_class, state_class)
             )
 
-    # Basis-Sensoren (immer)
+    # Basis-Sensoren (immer) – mit state_class für Temperaturen
     base_sensors = [
         ("temp_outside", "Außentemperatur", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE),
         ("temp_buffer_top", "Puffer oben", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE),
@@ -59,52 +58,52 @@ async def async_setup_entry(
         ("setpoint_dhw", "Soll Warmwasser", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE),
     ]
     for key, name, unit, device_class in base_sensors:
-        add_if_valid(key, name, unit, device_class)
+        add_if_valid(key, name, unit, device_class, SensorStateClass.MEASUREMENT)
 
     if data.get("hk1_available", False):
-        add_if_valid("temp_flow_hk1", "Vorlauf HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_return_hk1", "Rücklauf HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_room_hk1", "Raum HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("setpoint_flow_hk1", "Soll Vorlauf HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
+        add_if_valid("temp_flow_hk1", "Vorlauf HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_return_hk1", "Rücklauf HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_room_hk1", "Raum HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("setpoint_flow_hk1", "Soll Vorlauf HK1", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
 
     if data.get("hk2_available", False):
-        add_if_valid("temp_flow_hk2", "Vorlauf HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_return_hk2", "Rücklauf HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_room_hk2", "Raum HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("setpoint_flow_hk2", "Soll Vorlauf HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
+        add_if_valid("temp_flow_hk2", "Vorlauf HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_return_hk2", "Rücklauf HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_room_hk2", "Raum HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("setpoint_flow_hk2", "Soll Vorlauf HK2", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
 
     if config.get(CONF_ENABLE_SOLAR_SENSORS, False):
-        add_if_valid("temp_collector", "Kollektor", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("solar_power", "Solarleistung aktuell", UnitOfPower.KILO_WATT, SensorDeviceClass.POWER)
+        add_if_valid("temp_collector", "Kollektor", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("solar_power", "Solarleistung aktuell", UnitOfPower.KILO_WATT, SensorDeviceClass.POWER, SensorStateClass.MEASUREMENT)
 
         if config.get(CONF_ENABLE_ENERGY_SENSORS, False):
             add_if_valid("solar_energy_today", "Solarertrag heute", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, SensorStateClass.TOTAL_INCREASING)
             add_if_valid("solar_energy_total", "Solarertrag gesamt", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, SensorStateClass.TOTAL)
 
     if config.get(CONF_ENABLE_BOILER_SENSORS, False):
-        add_if_valid("temp_boiler_flow", "Kesselvorlauf", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_boiler_return", "Kesselrücklauf", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("setpoint_boiler", "Kesselsoll", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
+        add_if_valid("temp_boiler_flow", "Kesselvorlauf", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_boiler_return", "Kesselrücklauf", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("setpoint_boiler", "Kesselsoll", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
 
         if config.get(CONF_ENABLE_ENERGY_SENSORS, False):
             add_if_valid("boiler_hours", "Betriebsstunden Kessel", UnitOfTime.HOURS, SensorDeviceClass.DURATION, SensorStateClass.TOTAL)
             add_if_valid("boiler_starts", "Anzahl Starts Kessel", None, None, SensorStateClass.TOTAL_INCREASING)
 
     if config.get(CONF_ENABLE_PELLET_SENSORS, False):
-        add_if_valid("pellet_hours", "Betriebsstunden Pellet", UnitOfTime.HOURS, SensorDeviceClass.DURATION)
-        add_if_valid("pellet_consumption", "Pelletverbrauch gesamt", "t", None)
+        add_if_valid("pellet_hours", "Betriebsstunden Pellet", UnitOfTime.HOURS, SensorDeviceClass.DURATION, SensorStateClass.TOTAL)
+        add_if_valid("pellet_consumption", "Pelletverbrauch gesamt", "t", None, SensorStateClass.TOTAL_INCREASING)
 
     if config.get(CONF_ENABLE_WOOD_BOILER_SENSORS, False):
-        add_if_valid("temp_wood_boiler_flow", "Vorlauf Holzkessel", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_wood_boiler_return", "Rücklauf Holzkessel", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_wood_buffer_top", "Holzpuffer oben", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
+        add_if_valid("temp_wood_boiler_flow", "Vorlauf Holzkessel", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_wood_boiler_return", "Rücklauf Holzkessel", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_wood_buffer_top", "Holzpuffer oben", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
 
     if config.get(CONF_ENABLE_POOL_SENSORS, False):
-        add_if_valid("temp_pool", "Schwimmbad", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_pool_flow", "Vorlauf Pool", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
-        add_if_valid("temp_pool_return", "Rücklauf Pool", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE)
+        add_if_valid("temp_pool", "Schwimmbad", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_pool_flow", "Vorlauf Pool", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
+        add_if_valid("temp_pool_return", "Rücklauf Pool", UnitOfTemperature.CELSIUS, SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT)
 
-    # Status-Texte (immer)
+    # Status-Texte (immer) – keine state_class nötig (Strings)
     status_texts = [
         ("status_dhw_text", "Status Warmwasser"),
         ("status_circulation_text", "Status Zirkulation"),
@@ -116,15 +115,15 @@ async def async_setup_entry(
     for key, name in status_texts:
         entities.append(SystaSmartC2Sensor(coordinator, key, name))
 
-    add_if_valid("error_controller", "Störcode Regler")
-    add_if_valid("smarthome_error", "Störcode Smarthome")
+    # Fehlercodes – falls numerisch, state_class hinzufügen (vermeidet potenzielle Meldungen)
+    add_if_valid("error_controller", "Störcode Regler", None, None, SensorStateClass.MEASUREMENT)
+    add_if_valid("smarthome_error", "Störcode Smarthome", None, None, SensorStateClass.MEASUREMENT)
 
     if config.get(CONF_ENABLE_ENERGY_SENSORS, False):
         add_if_valid("energy_dhw", "Wärmemenge Warmwasser", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, SensorStateClass.TOTAL)
         add_if_valid("energy_circulation", "Wärmemenge Zirkulation", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY, SensorStateClass.TOTAL)
 
     async_add_entities(entities)
-
 
 class SystaSmartC2Sensor(CoordinatorEntity, SensorEntity):
     """Representation of a SystaSmartC2 sensor."""
