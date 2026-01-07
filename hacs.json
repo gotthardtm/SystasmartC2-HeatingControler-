@@ -1,0 +1,6 @@
+{
+  "name": "SystaSmartC2 Heating Controller",
+  "content_in_root": true,
+  "homeassistant": "2025.1.0",
+  "render_readme": true
+}
