@@ -3,10 +3,10 @@
   "name": "SystaSmartC2",
   "codeowners": ["@gotthardtm"],
   "config_flow": true,
-  "documentation": "https://github.com/gotthardtm/systasmartc2-hass",
+  "documentation": "https://github.com/gotthardtm/SystasmartC2-HeatingControler-",
   "integration_type": "device",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/gotthardtm/systasmartc2-ha/issues",
+  "issue_tracker": "https://github.com/gotthardtm/SystasmartC2-HeatingControler-/issues",
   "requirements": ["pymodbus>=3.0.0"],
-  "version": "1.0.0"
+  "version": "1.1.0"
 }
